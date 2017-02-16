@@ -1,1 +1,1 @@
-include ':countries'
+include ':countries', ':sample'

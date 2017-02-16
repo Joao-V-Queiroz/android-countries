@@ -1,0 +1,54 @@
+apply plugin: 'com.android.application'
+
+apply from: "$rootDir/dependencies.gradle"
+
+android {
+    // do not modify. These fields are auto generated in dependencies.gradle
+    compileSdkVersion COMPILE_SDK_VERSION
+    buildToolsVersion BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        applicationId "com.airg.android.countries.sample"
+
+        // do not modify. These fields are auto generated in dependencies.gradle
+        minSdkVersion MIN_SDK_VERSION
+        targetSdkVersion COMPILE_SDK_VERSION
+
+        // do not modify. These fields are auto generated in version.gradle
+        versionCode 1
+        versionName '1.0'
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile project(':countries')
+    //noinspection GradleDynamicVersion
+    compile 'com.airg.android:logger:1+@aar'
+    //noinspection GradleDynamicVersion
+    compile 'com.airg.android:device:0+@aar'
+    compile "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION"
+    compile "com.android.support:recyclerview-v7:$SUPPORT_LIB_VERSION"
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile "com.jakewharton:butterknife:$BUTTERKNIFE_VERSION"
+    provided "org.projectlombok:lombok:$LOMBOK_VERSION"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTERKNIFE_VERSION"
+    annotationProcessor "org.projectlombok:lombok:$LOMBOK_VERSION"
+
+    testCompile 'junit:junit:4.12'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+}
