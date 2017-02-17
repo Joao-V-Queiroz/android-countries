@@ -2,10 +2,10 @@ package com.airg.android;
 
 import android.support.annotation.DrawableRes;
 
+import com.airg.android.countries.Comparators;
 import com.airg.android.countries.R;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * A list of countries, their latin and localized names, their international prefix codes, and alpha2 and alpha3 codes.
@@ -21,7 +21,7 @@ public enum Country {
     /**
      * Åland Islands
      */
-    AX("ALA", "Åland Islands", null, 358, R.drawable.ic_flag_ax),
+    AX("ALA", "Aland Islands", "Åland Islands", 358, R.drawable.ic_flag_ax),
     /**
      * Albania
      */
@@ -417,7 +417,7 @@ public enum Country {
     /**
      * Iran
      */
-    IR("IRN", "Iran" , "\u202Bایران\u202C\u200E", 98, R.drawable.ic_flag_ir),
+    IR("IRN", "Iran", "\u202Bایران\u202C\u200E", 98, R.drawable.ic_flag_ir),
     /**
      * Iraq
      */
@@ -1029,6 +1029,7 @@ public enum Country {
 
     /**
      * Does this country have a localized name? (i.e. will calling {@link #localizedName()} return a different string than {@link #latinName}?
+     *
      * @return <code>true</code> if there is a localized name and <code>false</code> otehrwise.
      */
     public boolean hasLocalizedName() {
@@ -1042,57 +1043,6 @@ public enum Country {
      */
     public String localizedName() {
         return null == localizedName ? latinName : localizedName;
-    }
-
-    /**
-     * Get a list of all countries sorted by their latin names
-     * @return sorted list
-     */
-    public static Country[] sortedByLatinName () {
-        final Country[] countries = values();
-
-        Arrays.sort(countries, new Comparator<Country>() {
-            @Override
-            public int compare(Country left, Country right) {
-                return left.latinName.compareToIgnoreCase(right.latinName);
-            }
-        });
-
-        return countries;
-    }
-
-    /**
-     * Get a list of all countries sorted by their Alpha2 code
-     * @return sorted list
-     */
-    public static Country[] sortedByAlpha2 () {
-        final Country[] countries = values();
-
-        Arrays.sort(countries, new Comparator<Country>() {
-            @Override
-            public int compare(Country left, Country right) {
-                return left.alpha2.compareToIgnoreCase(right.alpha2);
-            }
-        });
-
-        return countries;
-    }
-
-    /**
-     * Get a list of all countries sorted by their Alpha3 code
-     * @return sorted list
-     */
-    public static Country[] sortedByAlpha3 () {
-        final Country[] countries = values();
-
-        Arrays.sort(countries, new Comparator<Country>() {
-            @Override
-            public int compare(Country left, Country right) {
-                return left.alpha3.compareToIgnoreCase(right.alpha3);
-            }
-        });
-
-        return countries;
     }
 }
 
