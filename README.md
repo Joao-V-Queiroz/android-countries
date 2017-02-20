@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/airgoss/airGOss/countries/images/download.svg) ](https://bintray.com/airgoss/airGOss/countries/_latestVersion)
+
 # Android Countries
 This library contains a complete list of countries, their alpha2 and alpha3 codes, international prefix code, flags (48dp), latin names, and local names.
 
