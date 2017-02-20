@@ -111,6 +111,17 @@ public final class Countries {
     }
 
     /**
+     * Gets the country code corresponding to the device (via {@link #getDeviceCountry(Context)}. If country cannot be determined, the default country is returned.
+     *
+     * @param context context through which to access resources.
+     * @return The current device country if found, or <code>defaultCountry</code> if none found.
+     */
+    public static Country getDeviceCountry(@NonNull final Context context, final Country defaultCountry) {
+        final Country country = getDeviceCountry(context);
+        return null == country ? defaultCountry : country;
+    }
+
+    /**
      * Gets the country code corresponding to the device. The country detection is done in the following order:
      * <ol>
      * <li>If the device has telephony features and a SIM card is available, the country alpha2 is obtained via {@link TelephonyManager#getSimCountryIso()}</li>
