@@ -39,6 +39,7 @@ public final class Comparators {
          * Constructor. Provide a backup {@link Comparator} if no local country could be determined or neither country is the local country.
          *
          * @param context to determine the device country.
+         * @param backup  fallback comparator to use when neither country being compared is the local one.
          */
         public MyCountryFirstComparator(final Context context, final Comparator<Country> backup) {
             final Country local = getDeviceCountry(context);
