@@ -198,7 +198,7 @@ public enum Country {
     /**
      * Cocos (Keeling) Islands
      */
-    CC("CCK", "Cocos (Keeling) Islands", null, 61, R.drawable.ic_flag_cc),
+    CC("CCK", "Cocos Islands", null, 61, R.drawable.ic_flag_cc),
     /**
      * Colombia
      */
@@ -208,13 +208,13 @@ public enum Country {
      */
     KM("COM", "Comoros Islands", "\u202Bجزر القمر\u202C\u200E", 269, R.drawable.ic_flag_km),
     /**
-     * Congo, Democratic Republic of)
+     * Congo, Democratic Republic of
      */
-    CD("COD", "Congo (DRC)", "Jamhuri ya Kidemokrasia ya Kongo", 234, R.drawable.ic_flag_cd),
+    CD("COD", "Democrratic Republic of the Congo", "Jamhuri ya Kidemokrasia ya Kongo", 234, R.drawable.ic_flag_cd),
     /**
      * Congo, Republic of
      */
-    CG("COG", "Congo (Republic)", "Congo-Brazzaville", 242, R.drawable.ic_flag_cg),
+    CG("COG", "Republic of the Congo", "Congo-Brazzaville", 242, R.drawable.ic_flag_cg),
     /**
      * Cook Islands
      */
