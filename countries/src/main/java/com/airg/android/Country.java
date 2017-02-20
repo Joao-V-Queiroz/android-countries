@@ -1041,5 +1041,11 @@ public enum Country {
     public String localizedName() {
         return null == localizedName ? latinName : localizedName;
     }
+
+
+    @Override
+    public String toString() {
+        return latinName;
+    }
 }
 
