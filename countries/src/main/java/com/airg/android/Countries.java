@@ -1,13 +1,24 @@
 package com.airg.android;
 
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.os.LocaleList;
 import android.support.annotation.NonNull;
 import android.support.v4.util.LruCache;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.airg.android.countries.Comparators;
+import com.airg.android.device.ApiLevel;
+import com.airg.android.device.Device;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Locale;
+
+import static android.os.Build.VERSION_CODES.N;
 
 /**
  * Created by mahramf.
@@ -67,9 +78,11 @@ public final class Countries {
      * @param alpha2 alpha 2 code. Must not be <code>null</code>.
      * @return The {@link Country} if found, or <code>null</code> if not found.
      */
-    public static Country byAlpha2(@NonNull final String alpha2) {
+    public static Country byAlpha2(final String alpha2) {
         try {
-            return Country.valueOf(key(alpha2));
+            return TextUtils.isEmpty(alpha2)
+                    ? null
+                    : Country.valueOf(key(alpha2));
         } catch (IllegalArgumentException e) {
             return null;
         }
@@ -81,7 +94,9 @@ public final class Countries {
      * @param alpha3 alpha 3 code. Must not be <code>null</code>.
      * @return The {@link Country} if found, or <code>null</code> if not found.
      */
-    public static Country byAlpha3(@NonNull final String alpha3) {
+    public static Country byAlpha3(final String alpha3) {
+        if (TextUtils.isEmpty(alpha3)) return null;
+
         final String key = key(alpha3);
         Country country = alpha3Lookup.get(key);
 
@@ -93,6 +108,60 @@ public final class Countries {
 
         alpha3Lookup.put(key, country);
         return country;
+    }
+
+    /**
+     * Gets the country code corresponding to the device. The country detection is done in the following order:
+     * <ol>
+     * <li>If the device has telephony features and a SIM card is available, the country alpha2 is obtained via {@link TelephonyManager#getSimCountryIso()}</li>
+     * <li>The country alpha2 is extracted from the device Locale via {@link Locale#getCountry()}. On Android-{@link android.os.Build.VERSION_CODES#N} and newer, all enabled device locales are checked for a match.</li>
+     * </ol>
+     *
+     * @param context context through which to access resources.
+     * @return The current device country if found, or <code>null</code> if none found.
+     */
+    public static Country getDeviceCountry(@NonNull final Context context) {
+        try {
+            if (Device.hasSystemFeature(context, PackageManager.FEATURE_TELEPHONY)) {
+                final String a2 = ((TelephonyManager) Device.getSystemService(context, Context.TELEPHONY_SERVICE))
+                        .getSimCountryIso();
+
+                final Country country = null == a2 ? null : byAlpha2(a2.toUpperCase(Locale.ENGLISH));
+
+                if (null != country)
+                    return country;
+            }
+
+            return countryFromLocales(context);
+        } catch (Exception e) {
+            // don't want no trouble
+            return null;
+        }
+    }
+
+    private static Country getCountry(@NonNull final Locale locale) {
+        return byAlpha2(locale.getCountry().toUpperCase(Locale.ENGLISH));
+    }
+
+    @TargetApi(N)
+    static Country countryFromLocales(@NonNull final Context context) {
+        final Configuration config = context.getResources().getConfiguration();
+
+        if (ApiLevel.below(N))
+            //noinspection deprecation
+            return getCountry(config.locale);
+
+        LocaleList locales = config.getLocales();
+
+        final int len = locales.size();
+
+        for (int i = 0; i < len; ++i) {
+            final Country country = getCountry(locales.get(i));
+
+            if (null != country) return country;
+        }
+
+        return null;
     }
 
     interface SearchFilter<KEY> extends Comparator<Country> {

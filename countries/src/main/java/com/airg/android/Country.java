@@ -2,10 +2,7 @@ package com.airg.android;
 
 import android.support.annotation.DrawableRes;
 
-import com.airg.android.countries.Comparators;
 import com.airg.android.countries.R;
-
-import java.util.Arrays;
 
 /**
  * A list of countries, their latin and localized names, their international prefix codes, and alpha2 and alpha3 codes.
