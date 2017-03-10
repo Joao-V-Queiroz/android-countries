@@ -133,21 +133,30 @@ public final class Countries {
      */
     public static Country getDeviceCountry(@NonNull final Context context) {
         try {
-            if (Device.hasSystemFeature(context, PackageManager.FEATURE_TELEPHONY)) {
-                final String a2 = ((TelephonyManager) Device.getSystemService(context, Context.TELEPHONY_SERVICE))
-                        .getSimCountryIso();
+            final Country country = getDeviceSIMCountry(context);
 
-                final Country country = null == a2 ? null : byAlpha2(a2.toUpperCase(Locale.ENGLISH));
-
-                if (null != country)
-                    return country;
-            }
-
-            return countryFromLocales(context);
+            return null == country
+                    ? countryFromLocales(context) :
+                    country;
         } catch (Exception e) {
             // don't want no trouble
             return null;
         }
+    }
+
+    /**
+     * Gets the country code corresponding to the SIM card MCC.
+     * @param context context through which to access resources.
+     * @return The country corresponding to the SIM MCC if found, or <code>null</code> if no SIM.
+     */
+    public static Country getDeviceSIMCountry(@NonNull final Context context) {
+        if (!Device.hasSystemFeature(context, PackageManager.FEATURE_TELEPHONY))
+            return null;
+
+        final String a2 = ((TelephonyManager) Device.getSystemService(context, Context.TELEPHONY_SERVICE))
+                .getSimCountryIso();
+
+        return null == a2 ? null : byAlpha2(a2.toUpperCase(Locale.ENGLISH));
     }
 
     private static Country getCountry(@NonNull final Locale locale) {
